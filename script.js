@@ -11,6 +11,9 @@ const startQuizbtn = document.querySelector(".start-quiz-btn");
 const continueQuiz = document.querySelector(".continue-quiz");
 const quizSection = document.querySelector(".quiz-section");
 const exitQuiz = document.querySelector(".exit-quiz");
+const userScoresec = document.querySelector(".userscore-section");
+const resultPercantage = document.querySelector(".result-percentage");
+let userScore = 0;
 
 startQuizbtn.addEventListener("click", () => {
   startQuiz.style.display = "flex";
@@ -34,16 +37,17 @@ const generateQuestion = async () => {
 const startGame = async () => {
   const allQuestions = await generateQuestion();
   let i = 0;
-  const answers = new Array(10).fill({ 1: 1 });
   setQuestion(allQuestions[0]);
-  questionCnt.textContent = `${i + 1} of 10 question`;
+  questionCnt.textContent = `${i + 1} of 5 question`;
   nextBtn.addEventListener("click", () => {
     if (i + 1 < 5) {
-      questionCnt.textContent = `${i + 1} of 10 question`;
+      questionCnt.textContent = `${i + 1} of 5 question`;
       setQuestion(allQuestions[i + 1]);
     } else {
       quiz.style.display = "none";
       quizResult.style.display = "block";
+      score.textContent = `Your Score ${userScore} of 5`;
+      resultPercantage.textContent = `${userScore * 20}%`;
     }
     i++;
   });
@@ -79,6 +83,7 @@ const setQuestion = (fullQuestion, answers, questionIdx) => {
       if (correctAnswer == value) {
         option.style.border = "2px solid green";
         option.style.background = "green";
+        userScore++;
       } else {
         option.style.border = "2px solid red";
         option.style.background = "red";
@@ -90,6 +95,7 @@ const setQuestion = (fullQuestion, answers, questionIdx) => {
           }
         });
       }
+      userScoresec.textContent = `Score ${userScore}/5`;
     });
   });
 };
