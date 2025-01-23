@@ -1,5 +1,5 @@
 const API_ENDPOINT = "https://the-trivia-api.com/v2/questions";
-const nextBtn = document.querySelector(".next-btn");
+let nextBtn = document.querySelector(".next-btn");
 const question = document.querySelector(".question");
 const questionsOptions = document.querySelectorAll(".option-container div");
 const score = document.querySelector(".score");
@@ -13,6 +13,8 @@ const quizSection = document.querySelector(".quiz-section");
 const exitQuiz = document.querySelector(".exit-quiz");
 const userScoresec = document.querySelector(".userscore-section");
 const resultPercantage = document.querySelector(".result-percentage");
+const tryagain = document.querySelector(".try-again-btn");
+const goHome = document.querySelector(".go-home");
 let userScore = 0;
 
 startQuizbtn.addEventListener("click", () => {
@@ -21,6 +23,16 @@ startQuizbtn.addEventListener("click", () => {
 
 exitQuiz.addEventListener("click", () => {
   startQuiz.style.display = "none";
+});
+
+goHome.addEventListener("click", () => {
+  localStorage.removeItem("reloadState");
+  quizSection.style.transform = "translateX(-2500px)";
+});
+
+tryagain.addEventListener("click", () => {
+  location.reload();
+  localStorage.setItem("reloadState", "true");
 });
 
 continueQuiz.addEventListener("click", () => {
@@ -108,3 +120,14 @@ function setDefault() {
     option.style.background = "transparent";
   });
 }
+
+window.addEventListener("DOMContentLoaded", () => {
+  if (localStorage.getItem("reloadState") === "true") {
+    // Apply styles
+    startQuiz.style.display = "none";
+    quizSection.style.transform = "translateX(0px)";
+
+    // Clear the state
+    localStorage.removeItem("reloadState");
+  }
+});
